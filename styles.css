@@ -1,0 +1,240 @@
+:root {
+    --book-width: 250px;
+    --book-height: 250px;
+    --book-padding: 10px;
+    --book-border: 3px;
+    --book-display-grid-gap: 10px;
+    --book-display-grid-padding: 10px;
+    --book-container-width: calc(var(--book-width) + 2 * var(--book-padding) + 2 * var(--book-border));
+    --book-display-max-width: calc(4 * var(--book-container-width) + 3 * var(--book-display-grid-gap));
+    --header-color: #EF5A6F;
+    --main-color: #FFF1DB;
+    --book-color: #D4BDAC;
+    --footer-color: #536493;
+}
+
+header {
+    background-color: var(--header-color);
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+    align-items: center;
+    box-shadow: 0px 3px 3px 3px rgb(66, 66, 66);
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+header > div {
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+header > img {
+    height: 100px;
+}
+
+/* Button */
+#addBook {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background-color: var(--footer-color);
+    border-radius: 40em;
+    border-style: none;
+    box-shadow: #424c69 0 -12px 6px inset;
+    color: var(--main-color);
+    padding: 5px 20px;
+    justify-self: flex-start;
+}
+
+body {
+    background-color: var(--main-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    background-color: var(--main-color);
+    padding-top: 25px;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#bookDisplay {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 276px);
+    width: 100vw;                               /* Needed to make the responsive wrapping work */
+    gap: var(--book-display-grid-gap);;
+    padding: var(--book-display-grid-padding);
+    max-width: var(--book-display-max-width);
+    justify-content: center;
+    align-items: center;
+    justify-self: stretch;
+}
+
+.book {
+    background-color: var(--book-color);
+    border: solid black var(--book-border);
+    border-radius: 8px;
+    padding: var(--book-padding);
+    width: var(--book-width);
+    height: var(--book-height);
+    box-shadow: 2px 2px 2px 2px rgb(66, 66, 66);
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: flex-start;
+}
+
+.action-images {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+.action-images > img {
+    width: 20px;
+    height: 20px;
+}
+
+.bookTitle {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bookAuthor {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.bookReadStatus {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.bookReadStatus > span {
+    width: 8ch;
+}
+
+.toggle {
+    width: 20px;
+    height: 20px;
+}
+
+footer {
+    text-align: center;
+    font-size: small;
+    background-color: var(--footer-color);
+    height: 50px;
+    margin-top: auto;
+    box-shadow: 0px -3px 3px 3px rgb(66, 66, 66);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--main-color);
+}
+
+dialog:not([open]) {
+    display:none;
+}
+
+dialog {
+    width: 400px;
+    height: 266px;
+    display: grid;
+    grid-template-columns: repeat(12, calc(100px / 3));
+    grid-template-rows: repeat(8, calc(100px / 3));
+    align-items: center;
+    background: url("images/peter-herrmann-aT88kga0g_M-unsplash.png") no-repeat center center fixed;
+    background-size: 400px 266px cover;
+    overflow: hidden;    /* Necessary to prevent scrollbars on modal */
+    padding: 0px;
+    color: var(--main-color);
+    border: solid 5px black;
+}
+
+#titlelabel {
+    grid-column: 2 / span 2;
+    grid-row: 2 / 3;
+}
+
+#title {
+    grid-column: 5 / span 7;
+    grid-row: 2 / 3;
+}
+
+#authorlabel {
+    grid-column: 2 / span 2;
+    grid-row: 3 / 4;
+}
+
+#author {
+    grid-column: 5 / span 7;
+    grid-row: 3 / 4;
+}
+
+#pageslabel {
+    grid-column: 2 / span 2;
+    grid-row: 4 / 5;
+}
+
+#pages {
+    grid-column: 5 / span 7;
+    grid-row: 4 / 5;
+}
+
+#havereadlabel {
+    grid-column: 2 / span 3;
+    grid-row: 5 / 6;
+}
+
+#haveRead {
+    grid-column: 5 / span 1;
+    grid-row: 5 / 6;
+    justify-self: baseline;
+}
+
+#cancel {
+    grid-column: 3 / span 3;
+    grid-row: 7 / 8;
+    background-color: var(--main-color);
+    color: black;
+}
+
+#save {
+    grid-column: 8 / span 3;
+    grid-row: 7 / 8;
+    background-color: var(--main-color);
+    color: black;
+}
+.header {
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 25px;
+  align-items: center;
+  box-shadow: 0px 3px 3px 3px rgb(66, 66, 66);
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
