@@ -11,8 +11,6 @@ function populateLibrary() {
     myLibrary.push(book);
     book = new Book("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 159, true);
     myLibrary.push(book);
-    book = new Book("Miss Peregrine's Home for Peculiar Children", "Ransom Riggs and Jesse Bernstein", 352, false);
-    myLibrary.push(book);
 }
 
 function Book(title, author, pages, haveRead) {
