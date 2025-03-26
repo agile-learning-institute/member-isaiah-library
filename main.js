@@ -67,93 +67,105 @@ function deleteBookFromLibrary(id) {
 }
 
 function refreshBookDisplay() {
-    let bookDiv, div, img, span;
-    const toggleOnURL = "images/toggle-switch.png";
-    const toggleOffURL = "images/toggle-switch-off.png";
-    let display = document.querySelector("#bookDisplay");
-    display.replaceChildren();  // Empty what's there
-    myLibrary.forEach((book, index) => {
-        bookID = "book-" + index;
-        bookDiv = document.createElement("div")
-        bookDiv.classList.add("book");
-        bookDiv.id = bookID;
-        div = document.createElement("div");
-        div.classList.add("bookTitle");
-        div.textContent = book.title;
-        bookDiv.appendChild(div);
-        div = document.createElement("div");
-        div.classList.add("bookAuthor");
-        div.textContent = book.author;
-        bookDiv.appendChild(div);
-        div = document.createElement("div");
-        div.classList.add("bookPages");
-        div.textContent = book.pages + " pages";
-        bookDiv.appendChild(div);
-        div = document.createElement("div");
-        div.classList.add("bookReadStatus");
-        span = document.createElement("span");
-        span.id = `read-${index}`;
-        img = document.createElement("img");
-        img.classList.add("toggle");
-        img.id = `toggle-${index}`;
-        if (book.haveRead) {
-            span.textContent = "Read";
-            img.src = toggleOnURL;
-        } else {
-            span.textContent = "Not Read";
-            img.src = toggleOffURL;
-        }
-        img.addEventListener("click", () => {
-            image = document.getElementById(`toggle-${index}`);
-            if (image.src.endsWith(toggleOnURL)) {
-                myLibrary[index].haveRead = false;
-                image.src = toggleOffURL;
-                s = document.querySelector(`#read-${index}`);
-                s.textContent = "Not Read";
-            } else if (image.src.endsWith(toggleOffURL)) {
-                myLibrary[index].haveRead = true;
-                image.src = toggleOnURL;
-                s = document.querySelector(`#read-${index}`);
-                s.textContent = "Read";
-            } else {
-                console.log("No source found");
-            }
-        })
-        div.appendChild(span);
-        div.appendChild(img);
-        bookDiv.appendChild(div);
+    const display = document.querySelector("#bookDisplay");
+    display.replaceChildren();  // Clear existing content
 
-        div = document.createElement("div");
-        div.classList.add("action-images");
-        img = document.createElement("img");
-        img.src = "images/pencil.png";
-        img.alt = "Edit book";
-        img.title = "Edit book";
-        img.id = `edit-${index}`;
-        img.addEventListener("click", () => {
-            dialog.setAttribute("data-dialog-type", "edit");
-            dialog.setAttribute("data-dialog-book-id", index);
-            document.querySelector("#title").value = myLibrary[index].title;
-            document.querySelector("#author").value = myLibrary[index].author;
-            document.querySelector("#pages").value = myLibrary[index].pages;
-            document.querySelector("#haveRead").checked = myLibrary[index].haveRead;
-            dialog.showModal();
-        })
-        div.appendChild(img);
-        img = document.createElement("img");
-        img.src = "images/trash-can-outline.png";
-        img.alt = "Delete book";
-        img.title = "Delete book";
-        img.id = "delete-" + index;
-        img.addEventListener("click", () => {
-            deleteBookFromLibrary(index);
-            refreshBookDisplay();
-        })
-        div.appendChild(img);
-        bookDiv.appendChild(div);
+    myLibrary.forEach((book, index) => {
+        const bookDiv = createBookElement(book, index);
         display.appendChild(bookDiv);
     });
 }
+
+function createBookElement(book, index) {
+    const bookDiv = document.createElement("div");
+    bookDiv.classList.add("book");
+    bookDiv.id = `book-${index}`;
+
+    bookDiv.appendChild(createBookDetail("bookTitle", book.title));
+    bookDiv.appendChild(createBookDetail("bookAuthor", book.author));
+    bookDiv.appendChild(createBookDetail("bookPages", `${book.pages} pages`));
+    bookDiv.appendChild(createReadStatusToggle(book, index));
+    bookDiv.appendChild(createActionButtons(index));
+
+    return bookDiv;
+}
+
+function createBookDetail(className, textContent) {
+    const div = document.createElement("div");
+    div.classList.add(className);
+    div.textContent = textContent;
+    return div;
+}
+
+function createReadStatusToggle(book, index) {
+    const toggleOnURL = "images/toggle-switch.png";
+    const toggleOffURL = "images/toggle-switch-off.png";
+
+    const div = document.createElement("div");
+    div.classList.add("bookReadStatus");
+
+    const span = document.createElement("span");
+    span.id = `read-${index}`;
+    span.textContent = book.haveRead ? "Read" : "Not Read";
+
+    const img = document.createElement("img");
+    img.classList.add("toggle");
+    img.id = `toggle-${index}`;
+    img.src = book.haveRead ? toggleOnURL : toggleOffURL;
+    
+    img.addEventListener("click", () => toggleReadStatus(index, img, span));
+
+    div.appendChild(span);
+    div.appendChild(img);
+    return div;
+}
+
+function toggleReadStatus(index, img, span) {
+    const toggleOnURL = "images/toggle-switch.png";
+    const toggleOffURL = "images/toggle-switch-off.png";
+
+    myLibrary[index].haveRead = !myLibrary[index].haveRead;
+    img.src = myLibrary[index].haveRead ? toggleOnURL : toggleOffURL;
+    span.textContent = myLibrary[index].haveRead ? "Read" : "Not Read";
+}
+
+function createActionButtons(index) {
+    const div = document.createElement("div");
+    div.classList.add("action-images");
+
+    div.appendChild(createActionButton("images/pencil.png", "Edit book", () => openEditDialog(index)));
+    div.appendChild(createActionButton("images/trash-can-outline.png", "Delete book", () => deleteBook(index)));
+
+    return div;
+}
+
+function createActionButton(imgSrc, title, onClick) {
+    const img = document.createElement("img");
+    img.src = imgSrc;
+    img.alt = title;
+    img.title = title;
+    img.addEventListener("click", onClick);
+    return img;
+}
+
+function openEditDialog(index) {
+    const dialog = document.querySelector("dialog");
+    dialog.setAttribute("data-dialog-type", "edit");
+    dialog.setAttribute("data-dialog-book-id", index);
+
+    document.querySelector("#title").value = myLibrary[index].title;
+    document.querySelector("#author").value = myLibrary[index].author;
+    document.querySelector("#pages").value = myLibrary[index].pages;
+    document.querySelector("#haveRead").checked = myLibrary[index].haveRead;
+
+    dialog.showModal();
+}
+
+function deleteBook(index) {
+    deleteBookFromLibrary(index);
+    refreshBookDisplay();
+}
+
 
 function clearDialog() {
     document.querySelector('#title').value = "";

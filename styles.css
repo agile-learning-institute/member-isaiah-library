@@ -164,7 +164,8 @@ dialog {
     background-size: 400px 266px cover;
     overflow: hidden;    /* Necessary to prevent scrollbars on modal */
     padding: 0px;
-    color: var(--main-color);
+    color: white;
+    background-color: grey;
     border: solid 5px black;
 }
 
