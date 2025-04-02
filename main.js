@@ -131,8 +131,8 @@ function createActionButtons(index) {
     const div = document.createElement("div");
     div.classList.add("action-images");
 
-    div.appendChild(createActionButton("images/pencil.png", "Edit book", () => openEditDialog(index)));
-    div.appendChild(createActionButton("images/trash-can-outline.png", "Delete book", () => deleteBook(index)));
+    div.appendChild(createActionButton("images/edit.png", "Edit book", () => openEditDialog(index)));
+    div.appendChild(createActionButton("images/recycle-bin.png", "Delete book", () => deleteBook(index)));
 
     return div;
 }
@@ -181,11 +181,12 @@ const cancelButton = document.querySelector("dialog button#cancel");
 
 const addBookButton = document.querySelector("#addBook");
 
-cancelButton.addEventListener("click", () => {
+function cancelAction() {
     dialog.close();
     clearDialog();
     console.log("Closed");
-});
+  }
+;
 
 saveButton.addEventListener("click", () => {
     dialog.close();
