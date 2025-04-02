@@ -96,8 +96,8 @@ function createBookDetail(className, textContent) {
 }
 
 function createReadStatusToggle(book, index) {
-    const toggleOnURL = "images/toggle-switch.png";
-    const toggleOffURL = "images/toggle-switch-off.png";
+    const toggleOnURL = "images/switch.png";
+    const toggleOffURL = "images/toggle.png";
 
     const div = document.createElement("div");
     div.classList.add("bookReadStatus");
@@ -119,8 +119,8 @@ function createReadStatusToggle(book, index) {
 }
 
 function toggleReadStatus(index, img, span) {
-    const toggleOnURL = "images/toggle-switch.png";
-    const toggleOffURL = "images/toggle-switch-off.png";
+    const toggleOnURL = "images/switch.png";
+    const toggleOffURL = "images/toggle.png";
 
     myLibrary[index].haveRead = !myLibrary[index].haveRead;
     img.src = myLibrary[index].haveRead ? toggleOnURL : toggleOffURL;
